@@ -32,12 +32,13 @@ namespace MetacriticAPI.Services
             htmlNode.SelectSingleNode(".//span[contains(@class, 'metascore_w')]").InnerText;
 
         private static string GetYear(HtmlNode htmlNode) =>
-            string.Join(
-                string.Empty,
-                htmlNode.SelectSingleNode(".//span[contains(@class, 'platform')]").NextSibling.InnerText
+            new string(
+                htmlNode.SelectSingleNode(".//span[contains(@class, 'platform')]")
+                    .NextSibling.InnerText
                     .Replace("\\n", "")
                     .Trim(' ')
-                    .TakeLast(4));
+                    .TakeLast(4)
+                    .ToArray());
 
         private static string GetPlatform(HtmlNode htmlNode) =>
             htmlNode.SelectSingleNode(".//span[contains(@class, 'platform')]").InnerText;

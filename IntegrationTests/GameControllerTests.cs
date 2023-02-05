@@ -21,7 +21,7 @@ namespace IntegrationTests
             Assert.Equal("Fire Emblem Engage", gameDetails.Title);
             Assert.Equal("Switch", gameDetails.Platform);
             Assert.Equal("Nintendo", gameDetails.Publisher);
-            Assert.Equal("2023-01-20", gameDetails.ReleaseDate.ToString("yyyy-MM-dd"));
+            Assert.Equal("Jan 20, 2023", gameDetails.ReleaseDate);
             Assert.InRange(int.Parse(gameDetails.Metascore), 50, 100);
             Assert.InRange(double.Parse(gameDetails.Userscore), 50, 100);
             Assert.Equal("In a war against the Fell Dragon, four kingdoms worked together with heroes from other worlds to seal away this great evil. One-thousand years later, this seal has weakened and the Fell Dragon is about to reawaken. As a Divine Dragon, use rich strategies and robust customization to meet your destiny—to collect Emblem Rings and bring peace back to the Continent of Elyos.\r\rTeam up with iconic heroes from past Fire Emblem games\r\rSummon valiant heroes like Marth and Celica with the power of Emblem Rings and add their power to yours in this brand-new Fire Emblem story. Aside from merging appearances, Engaging lets you inherit weapons, skills, and more from these battle-tested legends. The turn-based, tactical battle system returns with a fresh cast of characters you can customize and Engage to carefully craft your strategy.", gameDetails.Summary);

@@ -9,7 +9,7 @@ namespace MetacriticAPI.Extensions
         {
             var baseAddressUri = new Uri(baseAddress);
             var uriBuilder = new UriBuilder(
-                new Uri(baseAddressUri, $"/search/game/{searchParameters.SearchTerm}/results"));
+                new Uri(baseAddressUri, $"/search/game/{ReplaceInvalidSearchTermCharacters(searchParameters.SearchTerm)}/results"));
             
             uriBuilder.Query = string.Join('&', "");
             var query = HttpUtility.ParseQueryString(uriBuilder.Query);
@@ -22,5 +22,9 @@ namespace MetacriticAPI.Extensions
             return uriBuilder.Uri;
         }
 
+        private static string ReplaceInvalidSearchTermCharacters(this string str) => str
+            .Replace(":", string.Empty)
+            .Replace(";", " ")
+            .Replace("/", " ");
     }
 }

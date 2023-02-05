@@ -26,19 +26,25 @@ namespace MetacriticAPI.Services
             htmlNode.SelectSingleNode(".//img").Attributes["src"].Value;
 
         private static string GetSummary(HtmlNode htmlNode) =>
-            htmlNode.SelectSingleNode(".//p[contains(@class, 'deck')]").InnerText;
+            htmlNode.SelectSingleNode(".//p[contains(@class, 'deck')]")?.InnerText ?? string.Empty;
 
         private static string GetMetascore(HtmlNode htmlNode) =>
             htmlNode.SelectSingleNode(".//span[contains(@class, 'metascore_w')]").InnerText;
 
-        private static string GetYear(HtmlNode htmlNode) =>
-            new string(
-                htmlNode.SelectSingleNode(".//span[contains(@class, 'platform')]")
-                    .NextSibling.InnerText
-                    .Replace("\\n", "")
-                    .Trim(' ')
-                    .TakeLast(4)
-                    .ToArray());
+        private static string GetYear(HtmlNode htmlNode)
+        {
+            var nodeText = htmlNode.SelectSingleNode(".//span[contains(@class, 'platform')]")
+                .NextSibling.InnerText
+                .Replace("\\n", "")
+                .Trim(' ');
+
+            if (nodeText.ToLowerInvariant().EndsWith("early access"))
+            {
+                return "Early Access";
+            }
+
+            return new string(nodeText.TakeLast(4).ToArray());
+        }
 
         private static string GetPlatform(HtmlNode htmlNode) =>
             htmlNode.SelectSingleNode(".//span[contains(@class, 'platform')]").InnerText;

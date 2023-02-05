@@ -27,26 +27,22 @@ namespace MetacriticAPI.Services
             documentNode.SelectSingleNode("//div[contains(@class, 'product_title')]/a/h1").InnerText.Strip();
 
         private static string GetPlatform(HtmlNode documentNode) =>
-            documentNode.SelectSingleNode("//span[contains(@class, 'platform')]/a").InnerText.Strip();
+            documentNode.SelectSingleNode("//span[contains(@class, 'platform')]").InnerText.Strip();
 
         private static string GetPublisher(HtmlNode documentNode) =>
             documentNode.SelectSingleNode("//li[contains(@class, 'summary_detail publisher')]/span/a").InnerText.Strip();
 
-        private static DateTime GetReleaseDate(HtmlNode documentNode) =>
-            DateTime.ParseExact(
-                documentNode.SelectSingleNode("//li[contains(@class, 'summary_detail release_data')]/span[contains(@class, 'data')]").InnerText
-                    .Replace("  ", " "),
-                "MMM d, yyyy",
-                null);
+        private static string GetReleaseDate(HtmlNode documentNode) =>
+            documentNode.SelectSingleNode("//li[contains(@class, 'summary_detail release_data')]/span[contains(@class, 'data')]").InnerText;
 
-        private static string GetMetascore(HtmlNode documentNode) =>
-            documentNode.SelectSingleNode("//div[contains(@class, 'metascore_w')]/span").InnerText;
+        private static string? GetMetascore(HtmlNode documentNode) =>
+            documentNode.SelectSingleNode("//div[contains(@class, 'metascore_w')]/span")?.InnerText;
 
-        private static string GetUserscore(HtmlNode documentNode) =>
-            documentNode.SelectSingleNode("//div[contains(@class, 'metascore_w user')]").InnerText;
+        private static string? GetUserscore(HtmlNode documentNode) =>
+            documentNode.SelectSingleNode("//div[contains(@class, 'score_summary')]//div[contains(@class, 'metascore_w user')]")?.InnerText;
 
-        private static string GetSummary(HtmlNode documentNode) =>
-            documentNode.SelectSingleNode("//span[contains(@class, 'blurb blurb_expanded')]").InnerText;
+        private static string? GetSummary(HtmlNode documentNode) =>
+            documentNode.SelectSingleNode("//span[contains(@class, 'blurb blurb_expanded')]")?.InnerText;
 
         private static string GetBoxArtUrl(HtmlNode documentNode) =>
             documentNode.SelectSingleNode("//img[contains(@class, 'product_image large_image')]").Attributes["src"].Value;

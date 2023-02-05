@@ -1,5 +1,5 @@
 ﻿using MetacriticAPI.Contracts;
-using MetacriticAPI.Contracts.Game;
+using MetacriticAPI.Utilities;
 using System.Collections.Specialized;
 
 namespace MetacriticAPI.Extensions
@@ -21,7 +21,7 @@ namespace MetacriticAPI.Extensions
 
         internal static void AddGamePlatform(this NameValueCollection queryCollection, string gamePlatform)
         {
-            string? platformId = gamePlatform.ToMetacriticPlatformId();
+            string? platformId = GamePlatformUtilities.GetMetacriticPlatformId(gamePlatform);
 
             if (platformId == null)
             {

@@ -43,7 +43,7 @@ static async Task SearchGame(GameController gameController, JsonSerializerOption
         platform ?? throw new NullReferenceException(nameof(platform)),
         SortMethod.Relevancy);
 
-    await ExecutionHelper.ExecuteAndLogDuration(async () =>
+    await ExecutionHelper.ExecuteAndLogDurationAsync(async () =>
     {
         var queryResult = await gameController.PerformSearchAsync(queryParams);
         Console.WriteLine(JsonSerializer.Serialize(queryResult, serializerOptions));
@@ -54,7 +54,7 @@ static async Task GetGameDetails(GameController gameController, JsonSerializerOp
     Console.Write("Provide absolute or relative game page URL: ");
     var url = Console.ReadLine() ?? throw new NullReferenceException("url");
 
-    await ExecutionHelper.ExecuteAndLogDuration(async () =>
+    await ExecutionHelper.ExecuteAndLogDurationAsync(async () =>
     {
         var result = await gameController.GetGameDetailsAsync(url);
         Console.WriteLine(JsonSerializer.Serialize(result, serializerOptions));

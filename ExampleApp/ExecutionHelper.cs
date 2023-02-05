@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ExampleApp
+﻿namespace ExampleApp
 {
     internal class ExecutionHelper
     {
@@ -20,7 +14,7 @@ namespace ExampleApp
             }
         }
 
-        internal static async Task ExecuteAndLogDuration(Func<Task> execute)
+        internal static async Task ExecuteAndLogDurationAsync(Func<Task> execute)
         {
             DateTime start = DateTime.Now;
 

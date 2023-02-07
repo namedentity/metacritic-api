@@ -8,8 +8,8 @@ namespace MetacriticAPI.Services
     {
         private readonly HttpClient httpClient;
         private readonly string baseAddress;
-        private readonly GameSearchHtmlParserService gameSearchHtmlParsingService = new();
-        private readonly GamePageHtmlParsingService gamePageHtmlParsingService = new();
+        private readonly GameSearchHtmlParserService gameSearchHtmlParserService = new();
+        private readonly GamePageHtmlParserService gamePageHtmlParserService = new();
 
         internal GameService(HttpClient httpClient, string baseAddress)
         {
@@ -21,7 +21,7 @@ namespace MetacriticAPI.Services
         {
             HtmlDocument htmlDocument = await SendAndLoadHtmlDocumentAsync(new(HttpMethod.Get, url));
 
-            return gamePageHtmlParsingService.Parse(htmlDocument);
+            return gamePageHtmlParserService.Parse(htmlDocument);
         }
 
         internal async Task<GameQueryResult> SearchGamesAsync(GameQueryParameters queryParameters)
@@ -29,7 +29,7 @@ namespace MetacriticAPI.Services
             var request = CreateRequestMessage(queryParameters);
             HtmlDocument htmlDocument = await SendAndLoadHtmlDocumentAsync(request);
 
-            return gameSearchHtmlParsingService.Parse(htmlDocument);
+            return gameSearchHtmlParserService.Parse(htmlDocument);
         }
 
         private async Task<HtmlDocument> SendAndLoadHtmlDocumentAsync(HttpRequestMessage request)

@@ -4,7 +4,7 @@ using MetacriticAPI.Extensions;
 
 namespace MetacriticAPI.Services
 {
-    internal class GamePageHtmlParsingService
+    internal class GamePageHtmlParserService
     {
         internal GameDetails Parse(HtmlDocument htmlDocument)
         {
@@ -24,13 +24,13 @@ namespace MetacriticAPI.Services
         }
 
         private static string GetTitle(HtmlNode documentNode) =>
-            documentNode.SelectSingleNode("//div[contains(@class, 'product_title')]/a/h1").InnerText.Strip();
+            documentNode.SelectSingleNode("//div[contains(@class, 'product_title')]/a/h1").InnerText.TrimStandardCharacters();
 
         private static string GetPlatform(HtmlNode documentNode) =>
-            documentNode.SelectSingleNode("//span[contains(@class, 'platform')]").InnerText.Strip();
+            documentNode.SelectSingleNode("//span[contains(@class, 'platform')]").InnerText.TrimStandardCharacters();
 
         private static string GetPublisher(HtmlNode documentNode) =>
-            documentNode.SelectSingleNode("//li[contains(@class, 'summary_detail publisher')]/span/a").InnerText.Strip();
+            documentNode.SelectSingleNode("//li[contains(@class, 'summary_detail publisher')]/span/a").InnerText.TrimStandardCharacters();
 
         private static string GetReleaseDate(HtmlNode documentNode) =>
             documentNode.SelectSingleNode("//li[contains(@class, 'summary_detail release_data')]/span[contains(@class, 'data')]").InnerText;
@@ -41,8 +41,23 @@ namespace MetacriticAPI.Services
         private static string? GetUserscore(HtmlNode documentNode) =>
             documentNode.SelectSingleNode("//div[contains(@class, 'score_summary')]//div[contains(@class, 'metascore_w user')]")?.InnerText;
 
-        private static string? GetSummary(HtmlNode documentNode) =>
-            documentNode.SelectSingleNode("//span[contains(@class, 'blurb blurb_expanded')]")?.InnerText;
+        private static string? GetSummary(HtmlNode documentNode)
+        {
+            var summaryDataNode = documentNode.SelectSingleNode("//li[contains(@class, 'summary_detail product_summary')]//span[contains(@class, 'data')]");
+
+            if (summaryDataNode == null)
+            {
+                return null;
+            }
+
+            var expandedBlurbNode = summaryDataNode.SelectSingleNode(".//span[contains(@class, 'blurb blurb_expanded')]");
+
+            var nodeToUse = expandedBlurbNode ?? summaryDataNode;
+
+            return nodeToUse.InnerText
+                .TrimStandardCharacters()
+                .TrimEnd("&hellip; Expand");
+        }
 
         private static string GetBoxArtUrl(HtmlNode documentNode) =>
             documentNode.SelectSingleNode("//img[contains(@class, 'product_image large_image')]").Attributes["src"].Value;
